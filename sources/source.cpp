@@ -1,14 +1,11 @@
 // Copyright 2018 Your Name <your_email>
 
 #include <header.hpp>
+
 #define KICK_FROM_SERVER  -100
 
 void client::connect(const ip::tcp::endpoint &ep) {
     _socket.connect(ep);
-}
-
-void client::loop() {
-
 }
 
 void client::close() {
@@ -32,13 +29,16 @@ void client::answerFromServer() {
             word += "\r\n\r\n";
             out << word;
             write(this->getSocket(), buffer);
-            if (word.find("login", 0) != -1)
+            if (word.find("login", 0) != (unsigned int)(-1))
                 login();
-            else if (word.find("clients", 0) != -1)
+            else if (word.find("clients", 0) != (unsigned int)(-1))
                 getClients();
-            else std::cout << "invalid msg: " << word << std::endl;
+            else
+                std::cout << "invalid msg: " << word << std::endl;
             buffer.consume(buffer.size());
-            boost::this_thread::sleep(boost::posix_time::millisec(rand()%7000));
+            static unsigned int rand = time(nullptr);
+            boost::this_thread::sleep(boost::posix_time
+                 ::millisec(rand_r(&rand)%7000));
             ping();
         } catch (std::runtime_error &exception) {
             this->stop();
@@ -98,8 +98,7 @@ void client::stop() {
 
 bool client::timed_out() const {
     time_t now = time(NULL);
-    long long ms = now - _lastTime;
-    return ms > 5000;
+    return (now - _lastTime) > 5000;
 }
 
 std::string client::getName() {
