@@ -1,7 +1,7 @@
 // Copyright 2018 Your Name <your_email>
 
-#ifndef INCLUDE_CLIENT_HPP_
-#define INCLUDE_CLIENT_HPP_
+#ifndef INCLUDE_HEADER_HPP_
+#define INCLUDE_HEADER_HPP_
 
 #include <iostream>
 #include <boost/asio.hpp>
@@ -71,4 +71,4 @@ private:
     Resolver _resolver;
     time_t _lastTime;
 };
-#endif // INCLUDE_CLIENT_HPP_
+#endif // INCLUDE_HEADER_HPP_
